@@ -1,0 +1,39 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Balatro Joker Tracker</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <h1>Balatro Joker Tracker</h1>
+<div style="margin-bottom:10px;">
+    <button id="selectAll">Select All</button>
+    <button id="deselectAll">Deselect All</button>
+</div>
+   <div class="controls">
+    <input type="text" id="search" placeholder="Search Joker..." />
+    <span id="completion">Total Completion: 0 / 150 (0%)</span>
+</div>
+
+    <table id="jokerTable">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Effect</th>
+                <th>Cost</th>
+                <th>Rarity</th>
+                <th>Type</th>
+                <th>Act</th>
+                <th>Gold Stake</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Rows populated by JS -->
+        </tbody>
+    </table>
+    <script src="/static/main.js"></script>
+</body>
+</html>

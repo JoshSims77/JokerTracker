@@ -1,0 +1,183 @@
+/*-------------------------
+  Font
+-------------------------*/
+@font-face {
+    font-family: 'M6X11';
+    src: url('/static/fonts/m6x11.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    font-family: 'M6X11', sans-serif;
+    margin: 20px;
+    background-color: #3a5055; 
+    color: #1e2b2d; 
+}
+
+/*-------------------------
+   Logo (currently not in use, logo is in assets. havent decided which i like more)
+-------------------------*/
+.logo-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.logo {
+    max-width: 300px;
+    height: auto;
+}
+
+/*-------------------------
+   Buttons
+-------------------------*/
+button {
+    font-family: 'M6X11', sans-serif;
+    padding: 8px 16px;
+    margin-right: 5px;
+    border: none;
+    background-color: #ff9800; /* Balatro orange */
+    color: #ffffff; 
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    text-shadow: 1px 1px 2px #1e2b2d; 
+    box-shadow: 0 4px 0 #e68900, 0 4px 6px rgba(0,0,0,0.2);
+    transition: transform 0.1s, box-shadow 0.1s, background-color 0.2s;
+}
+
+button:hover {
+    background-color: #e68900; 
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 #e68900, 0 6px 8px rgba(0,0,0,0.25);
+}
+
+button:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #e68900, 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/*-------------------------
+  4. Search Bar
+-------------------------*/
+#search {
+    padding: 8px 12px;
+    width: 300px;
+    margin-bottom: 15px;
+    border: 2px solid #1e2b2d;
+    border-radius: 4px;
+    background-color: #3a5055;
+    color: #ffffff;
+    font-family: 'M6X11', sans-serif;
+}
+
+#search::placeholder {
+    color: #ccc;
+}
+
+/*-------------------------
+  Table
+-------------------------*/
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 10px;  
+}
+
+tbody tr {
+    display: block;
+    background-color: #3a5055; /* card background */
+    border: 2px solid #1e2b2d; /* outer card border */
+    border-radius: 6px;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+    transition: transform 0.1s, box-shadow 0.2s;
+}
+
+tbody tr:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+}
+
+/* Row content */
+td {
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 0;
+    border-bottom: 1px solid #1e2b2d;
+    color: #ffffff;
+}
+
+td:last-child {
+    border-bottom: none; 
+}
+
+/* Labels for rows */
+td::before {
+    content: attr(data-label);
+    margin-right: 8px;
+}
+
+/* Checked / Gold Stake cards */
+tr.checked {
+    opacity: 0.5;
+    text-decoration: line-through;
+}
+
+/*-------------------------
+Buttons & Table wrapper
+-------------------------*/
+.controls {
+    margin-bottom: 15px;
+}
+
+/*-------------------------
+ Design
+-------------------------*/
+@media screen and (min-width: 768px) {
+    
+    table thead {
+        display: table-header-group;
+        background-color: #1e2b2d;
+        color: #ffffff;
+    }
+
+    
+    table thead th {
+        padding: 12px 16px; 
+        white-space: nowrap; 
+    }
+
+    tbody tr {
+        display: table-row;
+        box-shadow: none;
+        border-radius: 0;
+        margin-bottom: 0;
+    }
+
+    td {
+        display: table-cell;
+        border-bottom: 1px solid #1e2b2d;
+        padding: 8px 12px;
+    }
+
+    td::before {
+        content: none;
+    }
+}
+
+/*-------------------------
+  8. Total Completion
+-------------------------*/
+#completion {
+    font-family: 'M6X11', monospace; 
+    font-size: 22px;                 
+    text-shadow: 1px 1px 0 #1e2b2d;
+    color: #ffffff;
+    margin-left: 15px;
+    vertical-align: middle;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: geometricPrecision;
+}
