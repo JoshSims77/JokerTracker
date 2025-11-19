@@ -1,3 +1,5 @@
+
+
 let jokersList = [];
 let filteredList = [];
 const tableBody = document.querySelector("#jokerTable tbody");
@@ -87,3 +89,41 @@ document.getElementById("deselectAll").addEventListener("click", () => {
     saveLocalStorage();
     renderTable(jokersList);
 });
+
+document.getElementById("jkrUpload").addEventListener("change", async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    try {
+        const raw = await parseJkrFile(file);
+        alert("Loaded. Check console for RAW LUA.");
+    }
+    catch (err) {
+        console.error(err);
+        alert("Failed to read .jkr file.");
+    }
+});
+
+
+
+document.getElementById("jkrUpload").addEventListener("change", async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    try {
+        const arrayBuffer = await file.arrayBuffer();
+        const uint8Array = new Uint8Array(arrayBuffer);
+
+        // Use JokerFilter to extract order table
+        const orderTable = JokerFilter.getJokerOrderTable(uint8Array, jkr.decompress);
+        console.log('Order table:', orderTable);
+
+        alert("Joker order table extracted. Check console.");
+    } catch (err) {
+        console.error(err);
+        alert("Failed to read .jkr file.");
+    }
+});
+
+
+
