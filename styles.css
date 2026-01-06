@@ -238,6 +238,33 @@ Buttons & Table wrapper
 }
 
 /*-------------------------
+   Footer
+-------------------------*/
+.app-footer {
+    margin-top: 40px;
+    padding: 12px 16px;
+    text-align: center;
+
+    font-family: 'M6X11', sans-serif;
+    font-size: 12px;
+    color: #ffffff;
+    opacity: 0.75;
+
+    text-shadow: 1px 1px 2px #1e2b2d;
+}
+
+.app-footer a {
+    color: #ff9800;
+    text-decoration: none;
+    margin-left: 6px;
+}
+
+.app-footer a:hover {
+    text-decoration: underline;
+}
+
+
+/*-------------------------
   8. Total Completion
 -------------------------*/
 #completion {
