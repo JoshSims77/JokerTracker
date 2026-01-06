@@ -1,3 +1,6 @@
+ /* #ff9800; Balatro orange */
+   /* color: #ffffff;  */
+
 /*-------------------------
   Font
 -------------------------*/
@@ -55,6 +58,73 @@ button:hover {
 button:active {
     transform: translateY(2px);
     box-shadow: 0 2px 0 #e68900, 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/*-------------------------
+   Upload Button
+-------------------------*/
+.upload-container {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; 
+}
+
+.upload-container input[type="file"] {
+    display: none;
+}
+
+.upload-button {
+    display: inline-block;
+    font-family: 'M6X11', sans-serif;
+    padding: 8px 16px;
+    border: none;
+    background-color: #ff9800; 
+    color: #ffffff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    text-shadow: 1px 1px 2px #1e2b2d;
+    box-shadow: 0 4px 0 #e68900, 0 4px 6px rgba(0,0,0,0.2);
+    transition: transform 0.1s, box-shadow 0.1s, background-color 0.2s;
+    user-select: none;
+}
+
+.upload-button:hover {
+    background-color: #e68900;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 #e68900, 0 6px 8px rgba(0,0,0,0.25);
+}
+
+.upload-button:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #e68900, 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.upload-button .path {
+    opacity: 0.9;
+    font-size: 12px;
+}
+
+/*-------------------------
+   Upload Hint Text
+-------------------------*/
+.upload-hint {
+    margin-top: 6px;
+    font-family: 'M6X11', sans-serif;
+    font-size: 12px;
+    color: #ffffff;
+    opacity: 0.9;
+    text-align: right;
+    text-shadow: 1px 1px 2px #1e2b2d;
+}
+
+.upload-hint .path {
+    opacity: 1;
+    white-space: nowrap;
 }
 
 /*-------------------------

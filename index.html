@@ -8,6 +8,23 @@
 </head>
 <body>
     <h1>Balatro Joker Tracker</h1>
+
+<div class="upload-container">
+    <input type="file" id="jkrUpload" accept=".jkr">
+
+    <label for="jkrUpload" class="upload-button">
+        Upload profile.jkr
+    </label>
+
+    <div class="upload-hint">
+        File is found at
+        <span class="path">
+            C:\Users\%USERNAME%\AppData\Roaming\Balatro\1
+        </span>
+        on Windows
+    </div>
+</div>
+
 <div style="margin-bottom:10px;">
     <button id="selectAll">Select All</button>
     <button id="deselectAll">Deselect All</button>
@@ -34,6 +51,16 @@
             <!-- Rows populated by JS -->
         </tbody>
     </table>
-    <script src="app.js"></script>
+
+<!-- <div style="margin-top:20px; margin-bottom:10px;">
+    <input type="file" id="jkrUpload" accept=".jkr">
+    <label for="jkrUpload"><strong>Upload Balatro profile data (profile.jkr)</strong></label>
+</div> -->
+
+ <script src="https://unpkg.com/fflate@latest/umd/index.js"></script>
+<script src="jkr.js"></script>
+<script src="jokerfilter.js"></script>
+<script src="app.js"></script>
+
 </body>
 </html>

@@ -1,3 +1,5 @@
+
+
 let jokersList = [];
 let filteredList = [];
 const tableBody = document.querySelector("#jokerTable tbody");
@@ -29,10 +31,20 @@ function saveLocalStorage() {
     localStorage.setItem(LOCAL_KEY, JSON.stringify(obj));
 }
 
+function sortByCompletion(list) {
+  return [...list].sort((a, b) => {
+    if (a.checked !== b.checked) {
+      return a.checked ? 1 : -1; // unchecked first
+    }
+    return a.Nr - b.Nr; // stable within group
+  });
+}
+
+
 // Render table
 function renderTable(list) {
     tableBody.innerHTML = "";
-    list.forEach(joker => {
+    sortByCompletion(list).forEach(joker => {
         const tr = document.createElement("tr");
         if (joker.checked) tr.classList.add("checked");
 
@@ -87,3 +99,35 @@ document.getElementById("deselectAll").addEventListener("click", () => {
     saveLocalStorage();
     renderTable(jokersList);
 });
+
+
+
+
+document.getElementById("jkrUpload").addEventListener("change", async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  try {
+    const luaText = await parseJkrFile(file);
+    const completedOrders = JokerFilter.getCompletedOrders(luaText);
+
+    // Mark matching jokers as checked
+    jokersList.forEach(joker => {
+      if (completedOrders.includes(joker.Nr)) {
+        joker.checked = true;
+      }
+    });
+
+    saveLocalStorage();
+    renderTable(jokersList);
+
+    console.log("Gold stake completed joker orders:", completedOrders);
+    alert(`Imported ${completedOrders.length} completed jokers from profile.`);
+  } catch (err) {
+    console.error(err);
+    alert("Failed to read .jkr file.");
+  }
+});
+
+
+
