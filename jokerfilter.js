@@ -1,43 +1,58 @@
-// jokerfilter.js
+// jokerfilter.js — extract joker orders with a win on [8] from raw Lua text
+const JokerFilter = {
 
-/**
- * Extract joker usage from decompressed Lua text.
- * Returns an object mapping order → true (only completed on gold)
- * @param {string} luaText - raw Lua string from .jkr file
- */
-function extractJokerUsage(luaText) {
-    // Regex matches each joker entry:
-    // ["joker_name"]={["order"]=NUM,...["wins"]={...},...}
-    const regex = /\["([^"]+)"\]\s*=\s*{[^}]*?\["order"\]\s*=\s*(\d+),.*?\["wins"\]\s*=\s*{([^}]*)\}/gs;
-    const result = {};
-    let match;
+  extractJokerUsage(luaText) {
+    const startKey = '["joker_usage"]={';
+    const startIndex = luaText.indexOf(startKey);
+    if (startIndex === -1) return null;
 
-    while ((match = regex.exec(luaText)) !== null) {
-        const order = parseInt(match[2], 10);
-        const wins = match[3];
+    let i = startIndex + startKey.length;
+    let depth = 1;
 
-        // Only include if gold stake ([8]) exists in wins
-        if (/\[8\]\s*=/.test(wins)) {
-            result[order] = true;
-        }
+    while (i < luaText.length && depth > 0) {
+      if (luaText[i] === '{') depth++;
+      else if (luaText[i] === '}') depth--;
+      i++;
     }
 
-    return result;
-}
+    return luaText.slice(startIndex + startKey.length, i - 1);
+  },
 
-/**
- * Get joker order table from raw file bytes.
- * Only includes jokers completed on gold.
- * @param {Uint8Array} luaFileData - raw .jkr file bytes
- * @param {function} decompressor - function to decompress the file (from jkr.js)
- */
-function getJokerOrderTable(luaFileData, decompressor) {
-    const decompressed = decompressor(luaFileData); // returns Lua text
-    return extractJokerUsage(decompressed);
-}
+  splitJokers(jokerUsageText) {
+    return jokerUsageText
+      .split(/\["j_[^"]+"\]=\{/)
+      .slice(1);
+  },
+
+  extractOrder(block) {
+    const match = block.match(/\["order"\]=(\d+)/);
+    return match ? Number(match[1]) : null;
+  },
+
+  hasGoldWin(block) {
+    const winsMatch = block.match(/\["wins"\]=\{([^}]*)\}/);
+    if (!winsMatch) return false;
+
+    return /\[8\]\s*=\s*\d+/.test(winsMatch[1]);
+  },
+
+  getCompletedOrders(luaText) {
+    const jokerUsage = this.extractJokerUsage(luaText);
+    if (!jokerUsage) return [];
+
+    const blocks = this.splitJokers(jokerUsage);
+    const completed = [];
+
+    for (const block of blocks) {
+      const order = this.extractOrder(block);
+      if (order !== null && this.hasGoldWin(block)) {
+        completed.push(order);
+      }
+    }
+
+    return completed;
+  }
+};
 
 // Expose globally
-window.JokerFilter = {
-    getJokerOrderTable,
-    extractJokerUsage
-};
+window.JokerFilter = JokerFilter;
