@@ -44,6 +44,7 @@ function sortByCompletion(list) {
 // Render table
 function renderTable(list) {
     tableBody.innerHTML = "";
+
     sortByCompletion(list).forEach(joker => {
         const tr = document.createElement("tr");
         if (joker.checked) tr.classList.add("checked");
@@ -59,9 +60,21 @@ function renderTable(list) {
             <td><input type="checkbox" ${joker.checked ? "checked" : ""}></td>
         `;
 
+        const checkbox = tr.querySelector("input[type='checkbox']");
+
         // Checkbox toggle
-        tr.querySelector("input[type='checkbox']").addEventListener("change", (e) => {
+        checkbox.addEventListener("change", (e) => {
             joker.checked = e.target.checked;
+            saveLocalStorage();
+            renderTable(jokersList);
+        });
+
+        // Row click toggle 
+        tr.addEventListener("click", (e) => {
+            
+            if (e.target === checkbox) return; // Prevent double-toggle 
+
+            joker.checked = !joker.checked;
             saveLocalStorage();
             renderTable(jokersList);
         });
