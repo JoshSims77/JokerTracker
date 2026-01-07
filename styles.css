@@ -203,6 +203,39 @@ Buttons & Table wrapper
 }
 
 /*-------------------------
+   Undo Button
+-------------------------*/
+#undoLast {
+    background-color: #ff4c41;
+    box-shadow: 0 4px 0 #bb423c, 0 4px 6px rgba(0,0,0,0.2);
+}
+
+#undoLast:hover {
+    background-color: #e0433a;
+    box-shadow: 0 6px 0 #bb423c, 0 6px 8px rgba(0,0,0,0.25);
+}
+
+#undoLast:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #bb423c, 0 2px 4px rgba(0,0,0,0.2);
+}
+
+#undoLast:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    /* box-shadow: none; */
+    transform: none;
+
+    #undoLast:disabled:hover,
+    #undoLast:disabled:active {
+    background-color: #ff4c41;
+    box-shadow: 0 4px 0 #bb423c, 0 4px 6px rgba(0,0,0,0.2);
+    transform: none;
+}
+}
+
+
+/*-------------------------
  Design
 -------------------------*/
 @media screen and (min-width: 768px) {

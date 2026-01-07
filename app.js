@@ -8,6 +8,9 @@ const completionSpan = document.getElementById("completion");
 
 const LOCAL_KEY = "jokerCompletion";
 
+let undoStack = [];
+
+
 // Load JSON
 fetch("jokers.json")
     .then(res => res.json())
@@ -64,6 +67,7 @@ function renderTable(list) {
 
         // Checkbox toggle
         checkbox.addEventListener("change", (e) => {
+            recordUndo(joker);
             joker.checked = e.target.checked;
             saveLocalStorage();
             renderTable(jokersList);
@@ -73,7 +77,7 @@ function renderTable(list) {
         tr.addEventListener("click", (e) => {
             
             if (e.target === checkbox) return; // Prevent double-toggle 
-
+            recordUndo(joker);
             joker.checked = !joker.checked;
             saveLocalStorage();
             renderTable(jokersList);
@@ -102,16 +106,85 @@ searchInput.addEventListener("input", (e) => {
 
 // Select / Deselect All
 document.getElementById("selectAll").addEventListener("click", () => {
+    undoStack.push({
+        type: "bulk",
+        state: snapshotCheckedState()
+    });
+
+    document.getElementById("undoLast").disabled = false;
+
     jokersList.forEach(j => j.checked = true);
     saveLocalStorage();
     renderTable(jokersList);
 });
 
 document.getElementById("deselectAll").addEventListener("click", () => {
+    undoStack.push({
+        type: "bulk",
+        state: snapshotCheckedState()
+    });
+
+    document.getElementById("undoLast").disabled = false;
+
     jokersList.forEach(j => j.checked = false);
     saveLocalStorage();
     renderTable(jokersList);
 });
+
+
+
+// Undo helper
+function recordUndo(joker) {
+    undoStack.push({
+        type: "single",
+        Nr: joker.Nr,
+        previous: joker.checked
+    });
+
+    document.getElementById("undoLast").disabled = false;
+}
+
+
+// undo logic for select all / deselect all
+function snapshotCheckedState() {
+    const state = {};
+    jokersList.forEach(j => {
+        state[j.Nr] = j.checked;
+    });
+    return state;
+}
+
+// Undo button
+document.getElementById("undoLast").addEventListener("click", () => {
+    if (undoStack.length === 0) return;
+
+    const action = undoStack.pop();
+
+    if (action.type === "single") {
+        const joker = jokersList.find(j => j.Nr === action.Nr);
+        if (joker) {
+            joker.checked = action.previous;
+        }
+    }
+
+    if (action.type === "bulk") {
+        jokersList.forEach(j => {
+            if (action.state[j.Nr] !== undefined) {
+                j.checked = action.state[j.Nr];
+            }
+        });
+    }
+
+    if (undoStack.length === 0) {
+        document.getElementById("undoLast").disabled = true;
+    }
+
+    saveLocalStorage();
+    renderTable(jokersList);
+});
+
+
+
 
 
 
